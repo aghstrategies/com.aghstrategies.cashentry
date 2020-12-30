@@ -6,6 +6,45 @@ use CRM_Cashentry_ExtensionUtil as E;
 // phpcs:enable
 
 /**
+ * Implements hook_civicrm_permission().
+ *
+ * @link https://docs.civicrm.org/dev/en/latest/hooks/hook_civicrm_permission/
+ */
+function cashentry_civicrm_permission(&$permissions) {
+  // Create a permission to use Payment Processors of the type cash entry.
+  $permissions += [
+    'use Cash Entry Processors' => E::ts('Use Cash Entry Payment Processors'),
+  ];
+}
+
+/**
+ * Implements hook_civicrm_preProcess().
+ *
+ * @link http://wiki.civicrm.org/confluence/display/CRMDOC/hook_civicrm_preProcess
+ */
+function cashentry_civicrm_preProcess($formName, &$form) {
+
+  // If the logged in user does not have the permission use Cash Entry Processor
+  if (!CRM_Core_Permission::check('use Cash Entry Processors')) {
+
+    // If there are multiple payment processors and one of them is of the type cash entry, remove the cash entry processor.
+    if (isset($form->_paymentProcessors)) {
+      foreach ($form->_paymentProcessors as $key => $processorDetails) {
+        if (!empty($processorDetails['api.payment_processor_type.getsingle']['class_name'])
+        && $processorDetails['api.payment_processor_type.getsingle']['class_name'] == 'Payment_Cashentry') {
+          unset($form->_paymentProcessors[$key]);
+        }
+      }
+
+      // IF there is only one payment processor and it is of the type cash entry block access
+      if (empty($form->_paymentProcessors)) {
+        CRM_Core_Error::statusBounce(ts('Permission Denied, You must have the permission "Use Cash Entry Payment Processors" to access this page.'));
+      }
+    }
+  }
+}
+
+/**
  * Implements hook_civicrm_config().
  *
  * @link https://docs.civicrm.org/dev/en/latest/hooks/hook_civicrm_config/
@@ -86,6 +125,24 @@ function cashentry_civicrm_upgrade($op, CRM_Queue_Queue $queue = NULL) {
  * @link https://docs.civicrm.org/dev/en/latest/hooks/hook_civicrm_managed
  */
 function cashentry_civicrm_managed(&$entities) {
+  $entities[] = [
+    'module' => 'com.aghstrategies.cashentry',
+    'name' => 'Cash Entry',
+    'entity' => 'PaymentProcessorType',
+    'params' => [
+      'version' => 3,
+      'name' => 'Cashentry',
+      'title' => 'Cash Entry',
+      'description' => 'Cash Entry',
+      'class_name' => 'Payment_Cashentry',
+      'billing_mode' => 'form',
+      'url_site_default' => 'https://notapplicable.com/',
+      'url_site_test_default' => 'https://notapplicable.com/',
+      'is_recur' => FALSE,
+      'payment_type' => 3,
+      'user_name_label' => 'Customer ID',
+    ],
+  ];
   _cashentry_civix_civicrm_managed($entities);
 }
 

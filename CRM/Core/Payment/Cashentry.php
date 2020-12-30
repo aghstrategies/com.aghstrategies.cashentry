@@ -60,13 +60,24 @@ class CRM_Core_Payment_Cashentry extends CRM_Core_Payment {
   }
 
   /**
-   * Get array of fields that should be displayed on the payment form for credit cards.
-   *
-   * @return array
-   */
-  // protected function getCreditCardFormFields() {
-  //   return [];
-  // }
+  * This function checks to see if we have the right config values.
+  *
+  * @return string
+  *   The error message if any.
+  *
+  * @public
+  */
+ public function checkConfig() {
+   return NULL;
+ }
+
+ /**
+  * No form entry fields needed
+  * @return array array of fields needed to process payment
+  */
+ public function getPaymentFormFields() {
+  return [];
+ }
 
   /**
    * Process payment
