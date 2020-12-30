@@ -93,6 +93,7 @@ class CRM_Core_Payment_Cashentry extends CRM_Core_Payment {
    * @throws \Civi\Payment\Exception\PaymentProcessorException
    */
   public function doPayment(&$params, $component = 'contribute') {
+    // Create a completed contribution
     $completedStatusId = CRM_Core_PseudoConstant::getKey('CRM_Contribute_BAO_Contribution', 'contribution_status_id', 'Completed');
     $params['payment_status_id'] = $params['contribution_status_id'] = $completedStatusId;
     return $params;

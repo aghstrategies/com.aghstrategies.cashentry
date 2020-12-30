@@ -2,7 +2,7 @@
 <extension key="com.aghstrategies.cashentry" type="module">
   <file>cashentry</file>
   <name>Cash Entry Processor Option</name>
-  <description>Adds a Cash entry Payment Processor Option</description>
+  <description>Adds a "Cash entry" Payment Processor Type Option</description>
   <license>AGPL-3.0</license>
   <maintainer>
     <author>Alice Frumin</author>

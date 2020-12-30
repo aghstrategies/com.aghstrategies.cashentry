@@ -1,44 +1,20 @@
 # com.aghstrategies.cashentry
+![Screenshot of Cash Processor in Action](images/paymentOption.png)
 
-![Screenshot](/images/screenshot.png)
+Creates a Payment Processor Type "Cash Entry" and a Permission 'use Cash Entry Processors'.
 
-(*FIXME: In one or two paragraphs, describe what the extension does and why one would download it. *)
+IF the user has the permission 'use Cash Entry Processors' when they are on a Contribution or Event Registration Form that uses a Payment Processor of the type "Cash Entry" (amoung other processor options) they can see the Cash Entry option and select that option. Doing so will result in the creation of a contribution with the status "Completed".
 
-The extension is licensed under [AGPL-3.0](LICENSE.txt).
+IF the user DOES NOt have the permission 'use Cash Entry Processors' they will not be able to see the "Cash Entry" processor option.
 
-## Requirements
+IF the only processor type available on the form is a Cash Entry Processor and the logged in user does not have the permission 'use Cash Entry Processors' they will not be able to access the form.
 
-* PHP v7.0+
-* CiviCRM (*FIXME: Version number*)
+## Configuration
+1. Assign the permission 'use Cash Entry Processors' to the relevant roles.
+2. Create a Payment Processor of the type "Cash Entry" be sure that:
+- It is not the default
+- The Payment Method is set to "Cash"
 
-## Installation (Web UI)
+NOTE: the "Customer ID" and "Site URL" fields do not matter at all.
 
-This extension has not yet been published for installation via the web UI.
-
-## Installation (CLI, Zip)
-
-Sysadmins and developers may download the `.zip` file for this extension and
-install it with the command-line tool [cv](https://github.com/civicrm/cv).
-
-```bash
-cd <extension-dir>
-cv dl com.aghstrategies.cashentry@https://github.com/FIXME/com.aghstrategies.cashentry/archive/master.zip
-```
-
-## Installation (CLI, Git)
-
-Sysadmins and developers may clone the [Git](https://en.wikipedia.org/wiki/Git) repo for this extension and
-install it with the command-line tool [cv](https://github.com/civicrm/cv).
-
-```bash
-git clone https://github.com/FIXME/com.aghstrategies.cashentry.git
-cv en cashentry
-```
-
-## Usage
-
-(* FIXME: Where would a new user navigate to get started? What changes would they see? *)
-
-## Known Issues
-
-(* FIXME *)
+![Settings for Cash Entry Processor](images/settings.png)
